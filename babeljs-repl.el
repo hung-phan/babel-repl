@@ -1,5 +1,9 @@
 ;; emacs babel shell
 
+(add-to-list 'comint-preoutput-filter-functions
+             (lambda (output)
+               (replace-regexp-in-string "\033\\[[0-9]+[A-Z]" "" output)))
+
 (defvar babel-cli-program "babel-node"
   "Start babel-node repl for compile es6 syntax")
 
@@ -29,7 +33,7 @@
   (let ((buffer (comint-check-proc "*babel-shell*")))
     ;; pop to the "*babel-shell*" buffer if the process is dead, the
     ;; buffer is missing or it's got the wrong mode.
-    (pop-to-buffer-same-window
+    (pop-to-buffer
      (if (or buffer (not (derived-mode-p 'babel-shell-mode))
              (comint-check-proc (current-buffer)))
          (get-buffer-create "*babel-shell*")
