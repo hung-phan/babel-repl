@@ -24,6 +24,8 @@ Thanks tmtxt for his plugin [n4js.el](https://github.com/tmtxt/n4js.el)
 (add-to-list 'load-path "~/.emacs.d/babel-repl/")
 ```
 
+### Load the library
+
 - Load the library with `require`
 
 ```lisp
