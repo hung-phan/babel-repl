@@ -1,16 +1,16 @@
 # Babeljs repl for emacs
 
-# 1. Dependencies
+## Dependencies
 
 - `babel`: `npm install -g babel`
 
-# 2. Installation
+## Installation
 
-## Melpa
+### Melpa
 
 Coming soon
 
-## Manual install
+### Manual install
 
 - Clone it into your `.emacs.d` and add it into load path
 
@@ -24,7 +24,15 @@ Coming soon
 (require 'babeljs-repl)
 ```
 
-# 3. Variables
+### Weird characters
+
+```lisp
+(add-to-list 'comint-preoutput-filter-functions
+             (lambda (output)
+               (replace-regexp-in-string "\033\\[[0-9]+[A-Z]" "" output)))
+```
+
+## Variables
 
 Change these variables based on your demand
 
@@ -40,25 +48,23 @@ Change these variables based on your demand
 - `babel-pop-to-buffer`: whether to pop up the babel shell buffer after sending
 command to execute.
 
-- `babel-pop-to-buffer-function`: the function used for pop up the neo4j shell
+- `babel-pop-to-buffer-function`: the function used for pop up the babel node
 buffer if the above variable is set to t. Default is `pop-to-buffer`. An example
 is `pop-to-buffer` to pop up the babel buffer to current window
 instead of other window.
 
-# 4. Commands
+## Commands
 
-- `babel-start`: start a neo4j shell process
-- `babel-send-current-region`: send the active region to neo4j shell process
-- `babel-send-buffer`: send the whole buffer to neo4j shell process
-- `babel-send-paragraph`: send the paragraph at point to neo4j shell process
+- `babel-repl`: start a babel node process
+- `babel-send-current-region`: send the active region to babel node process
+- `babel-send-buffer`: send the whole buffer to babel node process
+- `babel-send-paragraph`: send the paragraph at point to babel node process
 - `babel-send-region-or-buffer`: send the current region if active, otherwise send
-the whole buffer to neo4j shell process
+the whole buffer to babel node process
 - `babel-send-dwim`: send the current region if active, otherwise send the
-paragraph at point to neo4j shell process
-- `babel-switch-to-buffer`: switch to neo4j shell buffer if exist, otherwise,
+paragraph at point to babel node process
+- `babel-switch-to-buffer`: switch to babel node buffer if exist, otherwise,
 start a new one
-
-# 5. Tips
 
 ## Connect to a babel shell with option
 
@@ -66,6 +72,6 @@ start a new one
 (setq babel-cli-arguments '("--trace-sync-io"))
 ```
 
-# 6. Demo
+## Demo
 
 ![Babeljs shell inside Emacs](interaction.gif)

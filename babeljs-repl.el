@@ -1,8 +1,45 @@
-;; emacs babel shell
+;;; babeljs-repl.el --- Run babeljs REPL
 
-(add-to-list 'comint-preoutput-filter-functions
-             (lambda (output)
-               (replace-regexp-in-string "\033\\[[0-9]+[A-Z]" "" output)))
+;; Copyright (C) 2015-2015 Hung Phan
+
+;; Author: Hung Phan
+;; Version: See `babel-repl-version'
+
+;;  This program is free software: you can redistribute it and/or modify
+;;  it under the terms of the GNU General Public License as published by
+;;  the Free Software Foundation, either version 3 of the License, or
+;;  (at your option) any later version.
+
+;;  This program is distributed in the hope that it will be useful,
+;;  but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;  GNU General Public License for more details.
+
+;;  You should have received a copy of the GNU General Public License
+;;  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Commentary:
+;;
+;; This program is derived from comint-mode and provides the following features.
+;;
+;;  * TAB completion same as Babel.js REPL
+;;  * file name completion in string
+;;  * incremental history search
+;;
+;;
+;; Put this file in your Emacs lisp path (e.g. ~/.emacs.d/site-lisp)
+;; and add the following line to your .emacs:
+;;
+;;    (require 'babeljs-repl)
+;;
+;; Type M-x babel-repl to run Babel.js REPL.
+;; See also `comint-mode' to check key bindings.
+;;
+
+(require 'comint)
+
+(defconst babel-repl-version "0.0.1"
+  "Babel.js mode Version.")
 
 (defvar babel-cli-program "babel-node"
   "Start babel-node repl for compile es6 syntax")
@@ -27,7 +64,7 @@
 
 ;;; Taken from masteringemacs with some changes
 ;;; https://www.masteringemacs.org/article/comint-writing-command-interpreter
-(defun babel-start ()
+(defun babel-repl ()
   "Start babel shell comint mode"
   (interactive)
   (let ((buffer (comint-check-proc "*babel-shell*")))
@@ -103,6 +140,6 @@
   (interactive)
   (if (comint-check-proc "*babel-shell*")
       (switch-to-buffer "*babel-shell*")
-    (babel-start)))
+    (babel-repl)))
 
 (provide 'babeljs-repl)
