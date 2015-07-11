@@ -1,9 +1,12 @@
-;;; babeljs-repl.el --- Run babeljs REPL
+;;; babel-repl.el --- Run babel REPL
 
 ;; Copyright (C) 2015-2015 Hung Phan
 
 ;; Author: Hung Phan
 ;; Version: See `babel-repl-version'
+;; URL: https://github.com/hung-phan/babel-repl/
+;; Package-Requires: ((emacs "24"))
+;; Keywords: babel, javascript, es6
 
 ;;  This program is free software: you can redistribute it and/or modify
 ;;  it under the terms of the GNU General Public License as published by
@@ -30,7 +33,7 @@
 ;; Put this file in your Emacs lisp path (e.g. ~/.emacs.d/site-lisp)
 ;; and add the following line to your .emacs:
 ;;
-;;    (require 'babeljs-repl)
+;;    (require 'babel-repl)
 ;;
 ;; Type M-x babel-repl to run Babel.js REPL.
 ;; See also `comint-mode' to check key bindings.
@@ -38,34 +41,36 @@
 
 (require 'comint)
 
+;;; Code:
+
 (defconst babel-repl-version "0.0.1"
   "Babel.js mode Version.")
 
-(defvar babel-cli-program "babel-node"
-  "Start babel-node repl for compile es6 syntax")
+(defvar babel-repl-cli-program "babel-node"
+  "Start babel-node repl for compile es6 syntax.")
 
-(defvar babel-cli-arguments '()
-  "List of command line arguments to pass to babel shell cli programm")
+(defvar babel-repl-cli-arguments '()
+  "List of command line arguments to pass to babel shell cli program.")
 
-(defvar babel-pop-to-buffer nil
-  "Whether to pop up the babel shell buffer after sending command to execute")
+(defvar babel-repl-pop-to-buffer nil
+  "Whether to pop up the babel shell buffer after sending command to execute.")
 
-(defvar babel-pop-to-buffer-function 'pop-to-buffer
-  "The function to pop up the babel shell buffer")
+(defvar babel-repl-pop-to-buffer-function 'pop-to-buffer
+  "The function to pop up the babel shell buffer.")
 
 (define-derived-mode babel-shell-mode comint-mode "Babel Shell"
   "Major mode for `babel-node'."
   ;; not allow the prompt to be deleted
   (setq comint-prompt-read-only t))
 
-(defun babel-pop-to-buffer ()
-  "Pop the babel shell buffer to the current window"
-  (apply babel-pop-to-buffer-function '("*babel-shell*")))
+(defun babel-repl-pop-to-buffer ()
+  "Pop the babel shell buffer to the current window."
+  (apply babel-repl-pop-to-buffer-function '("*babel-shell*")))
 
 ;;; Taken from masteringemacs with some changes
 ;;; https://www.masteringemacs.org/article/comint-writing-command-interpreter
 (defun babel-repl ()
-  "Start babel shell comint mode"
+  "Start babel shell comint mode."
   (interactive)
   (let ((buffer (comint-check-proc "*babel-shell*")))
     ;; pop to the "*babel-shell*" buffer if the process is dead, the
@@ -77,41 +82,44 @@
        (current-buffer)))
     ;; create the comint process if there is no buffer.
     (unless buffer
-      (apply 'make-comint-in-buffer "babel-shell" nil babel-cli-program nil
-             babel-cli-arguments)
+      (apply 'make-comint-in-buffer "babel-shell" nil babel-repl-cli-program nil
+             babel-repl-cli-arguments)
       (babel-shell-mode))))
 
 ;;; Send the query string to babel shell to execute
-(defun babel-send-string (string)
-  "Send the input string to babel shell process"
+(defun babel-repl-send-string (string)
+  "Send the input string to babel shell process.
+string (as STRING)."
   (if (not (comint-check-proc "*babel-shell*"))
       (message "No babel shell process started")
     (progn
       (process-send-string "*babel-shell*" (concat string "\n"))
-      (when babel-pop-to-buffer
-        (babel-pop-to-buffer)))))
+      (when babel-repl-pop-to-buffer
+        (babel-repl-pop-to-buffer)))))
 
-(defun babel-send-region (beg end)
-  "Send the region from beg to end to babel process"
+(defun babel-repl-send-region (beg end)
+  "Send the region from beg to end to babel process.
+beg (as BEG)
+end (as END)."
   (let ((string (buffer-substring-no-properties beg end)))
-    (babel-send-string string)))
+    (babel-repl-send-string string)))
 
-(defun babel-send-current-region ()
-  "Send the selected region to babel shell process"
+(defun babel-repl-send-current-region ()
+  "Send the selected region to babel shell process."
   (interactive)
   (let* ((beg (region-beginning))
          (end (region-end)))
-    (babel-send-region beg end)))
+    (babel-repl-send-region beg end)))
 
-(defun babel-send-buffer ()
-  "Send the current buffer to babel shell process"
+(defun babel-repl-send-buffer ()
+  "Send the current buffer to babel shell process."
   (interactive)
   (let* ((beg (point-min))
          (end (point-max)))
-    (babel-send-region beg end)))
+    (babel-repl-send-region beg end)))
 
-(defun babel-send-paragraph ()
-  "Send the current paragraph to babel shell process"
+(defun babel-repl-send-paragraph ()
+  "Send the current paragraph to babel shell process."
   (interactive)
   (let ((beg (save-excursion
                (backward-paragraph)
@@ -119,27 +127,29 @@
         (end (save-excursion
                (forward-paragraph)
                (point))))
-    (babel-send-region beg end)))
+    (babel-repl-send-region beg end)))
 
-(defun babel-send-region-or-buffer ()
-  "Send the selected region if presented, otherwise, send the whole buffer"
+(defun babel-repl-send-region-or-buffer ()
+  "Send the selected region if presented, otherwise, send the whole buffer."
   (interactive)
   (if (use-region-p)
-      (babel-send-current-region)
-    (babel-send-buffer)))
+      (babel-repl-send-current-region)
+    (babel-repl-send-buffer)))
 
-(defun babel-send-dwim ()
-  "Send the selected region presented, otherwise, send the current paragraph"
+(defun babel-repl-send-dwim ()
+  "Send the selected region presented, otherwise, send the current paragraph."
   (interactive)
   (if (use-region-p)
-      (babel-send-current-region)
-    (babel-send-paragraph)))
+      (babel-repl-send-current-region)
+    (babel-repl-send-paragraph)))
 
-(defun babel-switch-to-buffer ()
-  "Switch to babel shell buffer"
+(defun babel-repl-switch-to-buffer ()
+  "Switch to babel shell buffer."
   (interactive)
   (if (comint-check-proc "*babel-shell*")
       (switch-to-buffer "*babel-shell*")
     (babel-repl)))
 
-(provide 'babeljs-repl)
+(provide 'babel-repl)
+
+;;; babel-repl.el ends here

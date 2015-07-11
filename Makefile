@@ -1,4 +1,4 @@
-TARGET=babeljs-repl
+TARGET=babel-repl
 ifdef LIB
 	OPT=-L $(LIB)
 else
