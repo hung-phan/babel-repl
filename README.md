@@ -1,5 +1,7 @@
 # Babel REPL for emacs
 
+[![MELPA](http://melpa.org/packages/babel-repl-badge.svg)](http://melpa.org/#/babel-repl)
+
 ## Acknowledgement
 
 Thanks tmtxt for his plugin [n4js.el](https://github.com/tmtxt/n4js.el)
@@ -12,7 +14,7 @@ Thanks tmtxt for his plugin [n4js.el](https://github.com/tmtxt/n4js.el)
 
 ### Melpa
 
-Coming soon
+[babel-repl](http://melpa.org/#/babel-repl)
 
 ### Manual install
 
