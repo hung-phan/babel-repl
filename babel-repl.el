@@ -69,6 +69,7 @@
 
 ;;; Taken from masteringemacs with some changes
 ;;; https://www.masteringemacs.org/article/comint-writing-command-interpreter
+;;;###autoload
 (defun babel-repl ()
   "Start babel shell comint mode."
   (interactive)
@@ -143,6 +144,7 @@ end (as END)."
       (babel-repl-send-current-region)
     (babel-repl-send-paragraph)))
 
+;;;###autoload
 (defun babel-repl-switch-to-buffer ()
   "Switch to babel shell buffer."
   (interactive)
