@@ -34,7 +34,7 @@ Thanks tmtxt for his plugin [n4js.el](https://github.com/tmtxt/n4js.el)
 
 ### Weird characters workaround
 
-If you get weird characters in your REPL. Add this code snippet to your configuaration file.
+If you get weird characters in your REPL. Add this code snippet to your configuration file.
 
 ```lisp
 (require 'comint)
