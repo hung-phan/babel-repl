@@ -8,7 +8,7 @@ Thanks tmtxt for his plugin [n4js.el](https://github.com/tmtxt/n4js.el)
 
 ## Dependencies
 
-- `babel`: `npm install -g babel`
+- `babel-cli`: `npm install -g babel-cli`
 
 ## Installation
 
