@@ -43,7 +43,7 @@
 
 ;;; Code:
 
-(defconst babel-repl-version "0.0.1"
+(defconst babel-repl-version "0.1.0"
   "Babel.js mode Version.")
 
 (defvar babel-repl-cli-program "babel-node"
