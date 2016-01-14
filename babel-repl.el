@@ -102,7 +102,7 @@ string (as STRING)."
   "Send the region from beg to end to babel process.
 beg (as BEG)
 end (as END)."
-  (let ((string (buffer-substring-no-properties beg end)))
+  (let ((string (replace-regexp-in-string "[\n|\r]+" "" (buffer-substring-no-properties beg end))))
     (babel-repl-send-string string)))
 
 (defun babel-repl-send-current-region ()
