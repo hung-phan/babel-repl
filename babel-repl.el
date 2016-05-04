@@ -103,7 +103,7 @@ string (as STRING)."
 beg (as BEG)
 end (as END)."
   (let ((comment (replace-regexp-in-string
-                  "//\\([^\n\r]+\\)" "/*\\1 */"
+                  "//\\([^\n\r]*\\)" "/*\\1 */"
                   (buffer-substring-no-properties beg end))))
     (let ((string (replace-regexp-in-string "[\n|\r]+" " " comment)))
       (babel-repl-send-string string))))
